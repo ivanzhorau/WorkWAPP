@@ -8,23 +8,23 @@
 
 <form asp-action="edit" method="post" asp-controller="product">
     <div class="form-group">
-        <label asp-for="Name" class="control-label">Nazva</label>
+        <label asp-for="Name" class="control-label">Название</label>
         <input type="text" asp-for="Name" value="@Model.Name" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Description" class="control-label">Apisańnie</label>
+        <label asp-for="Description" class="control-label">Описание</label>
         <input type="text" asp-for="Description" value="@Model.Description" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Price" class="control-label">Košt</label>
+        <label asp-for="Price" class="control-label">Цена</label>
         <input type="number" asp-for="Price" value="@Model.Price" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Note" class="control-label">Dopis</label>
+        <label asp-for="Note" class="control-label">Примечание</label>
         <input type="text" asp-for="Note" value="@Model.Note" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="SpecialNote" class="control-label">Dadatkovy dopis</label>
+        <label asp-for="SpecialNote" class="control-label">Специальное примечание</label>
         <input type="text" asp-for="SpecialNote" value="@Model.SpecialNote" class="form-control" />
     </div>
     <div class="form-group">

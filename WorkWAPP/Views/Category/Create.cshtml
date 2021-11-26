@@ -1,6 +1,6 @@
 ﻿@model WorkWAPP.Models.Category
 @{
-    ViewBag.Title = "Stvaryć";
+    ViewBag.Title = "Создать";
 }
 
 <h1>@ViewBag.Title</h1>
@@ -8,10 +8,10 @@
 
 <form asp-action="create" method="post" asp-controller="category">
     <div class="form-group">
-        <label asp-for="Name" class="control-label">Nazva</label>
+        <label asp-for="Name" class="control-label">Название</label>
         <input type="text" asp-for="Name" class="form-control" />
     </div>
     <div class="form-group">
-        <input type="submit" value="Adpravić" class="btn btn-default" />
+        <input type="submit" value="Создать" class="btn btn-default" />
     </div>
 </form>
