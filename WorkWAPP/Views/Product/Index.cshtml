@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WorkWAPP.Models.Product>
+@{
+    ViewBag.Title = "Table";
+}
+
+<h1>@ViewBag.Title</h1>
+<a asp-action="Create">Dadać</a>
+<form method="get">
+    <div class="form-inline form-group">
+        <label class="control-label"> Nazva:</label>
+        <input name="name" type="text"/>
+
+        <label class="control-label"> Katehoryja:</label>
+        <input name="categoryName" type="text"/>
+
+        <label class="control-label"> Košt:</label>
+        <input name="price" type="number"/>
+
+        <input type="submit" value="Filtravać"/>
+    </div>
+</form>
+<table border="1">
+    <tr>
+        <td> <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameUp">Imia</a></td>
+        <td><a asp-action="Index" asp-route-sortOrder="@ViewBag.CategoryUp">Katehoryji</a></td>
+        <td>Padrabiaznaści</td>
+        <td><a asp-action="Index" asp-route-sortOrder="@ViewBag.PriceUp">Košt</a></td>
+        <td>Ahulnyja prykmiety</td>
+        <td>Dakładnyja prykmiety</td>
+        <td>Vydalić</td>
+        <td>Źmianić</td>
+    </tr>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Categories.Name</td>
+            <td>@product.Description</td>
+            <td>@product.Price</td>
+            <td>@product.Note</td>
+            <td>@product.SpecialNote</td>
+            <td><a href="~/Product/Delete/@product.Id">Vydalić</a></td>
+            <td><a href="~/Product/Edit/@product.Id">Źmianić</a></td>
+
+        </tr>
+    }
+
+</table>
+

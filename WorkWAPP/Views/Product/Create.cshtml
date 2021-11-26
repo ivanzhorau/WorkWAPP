@@ -1,0 +1,37 @@
+﻿@model WorkWAPP.Models.Product
+@{
+    ViewBag.Title = "Stvaryć";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<form asp-action="create" method="post" asp-controller="product">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Nazva</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Apisańnie</label>
+        <input type="text" asp-for="Description" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Košt</label>
+        <input type="number" asp-for="Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Note" class="control-label">Dopis</label>
+        <input type="text" asp-for="Note" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SpecialNote" class="control-label">Dadatkovy dopis</label>
+        <input type="text" asp-for="SpecialNote" class="form-control" />
+    </div>
+    <div class="form-group">
+        @Html.DropDownListFor(m => m.CategoriesId, ViewBag.Categories as SelectList)
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Adpravić" class="btn btn-default" />
+    </div>
+</form>

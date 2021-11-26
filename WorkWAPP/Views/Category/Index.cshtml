@@ -1,0 +1,23 @@
+﻿@model IEnumerable<WorkWAPP.Models.Category>
+@{
+    ViewBag.Title = "Table";
+}
+
+<h1>@ViewBag.Title</h1>
+<a asp-action="Create">Dadać</a>
+<table border="1">
+    <tr>
+        <td>Imia</td>
+    </tr>
+    @foreach (var category in Model)
+    {
+        <tr>
+            <td>@category.Name</td>
+            <td><a href="~/Category/Delete/@category.Id">Vydalić</a></td>
+            <td><a href="~/Category/Edit/@category.Id">Źmianić</a></td>
+
+        </tr>
+    }
+
+</table>
+
