@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -114,6 +115,42 @@ namespace WorkWAPP.Models
             }
             catch { return false; }
         }
-        
+
+
+        public IQueryable<Product> GetProducts(int? price, string name, string categoryName, SortState sortOrder, ViewDataDictionary viewData) {
+            IQueryable<Product> products = Products.Include(x => x.Categories);
+
+            if (!String.IsNullOrEmpty(name))
+            {
+                products = products.Where(p => p.Name.Contains(name));
+            }
+            if (!String.IsNullOrEmpty(categoryName))
+            {
+                products = products.Where(p => p.Categories.Name.Contains(categoryName));
+            }
+            if (price != null)
+            {
+                products = products.Where(p => p.Price == price);
+            }
+
+
+            viewData["NameUp"] = sortOrder == SortState.NameUp ? SortState.NameDown : SortState.NameUp;
+            viewData["PriceUp"] = sortOrder == SortState.PriceUp ? SortState.PriceDown : SortState.PriceUp;
+            viewData["CategoryUp"] = sortOrder == SortState.CategoryUp ? SortState.CaregoryDown : SortState.CategoryUp;
+
+            products = sortOrder switch
+            {
+                SortState.NameUp => products.OrderBy(s => s.Name),
+                SortState.PriceUp => products.OrderBy(s => s.Price),
+                SortState.CategoryUp => products.OrderBy(s => s.Categories.Name),
+                SortState.NameDown => products.OrderByDescending(s => s.Name),
+                SortState.PriceDown => products.OrderByDescending(s => s.Price),
+                SortState.CaregoryDown => products.OrderByDescending(s => s.Categories.Name),
+
+                _ => products.OrderBy(s => s.Name),
+            };
+            return products;
+        }
+
     }
 }

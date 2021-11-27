@@ -23,37 +23,8 @@ namespace WorkWAPP.Controllers
        
         public IActionResult Index(int? price, string name, string categoryName, SortState sortOrder = SortState.NameUp)
         {
-            IQueryable<Product> products = db.Products.Include(x => x.Categories);
-
-            if (!String.IsNullOrEmpty(name)) {
-                products = products.Where(p => p.Name.Contains(name));
-            }
-            if (!String.IsNullOrEmpty(categoryName))
-            {
-                products = products.Where(p => p.Categories.Name.Contains(categoryName));
-            }
-            if (price != null)
-            {
-                products = products.Where(p => p.Price == price);
-            }
-
-
-            ViewData["NameUp"] = sortOrder == SortState.NameUp ? SortState.NameDown : SortState.NameUp;
-            ViewData["PriceUp"] = sortOrder == SortState.PriceUp ? SortState.PriceDown : SortState.PriceUp;
-            ViewData["CategoryUp"] = sortOrder == SortState.CategoryUp ? SortState.CaregoryDown : SortState.CategoryUp;
-
-            products = sortOrder switch
-            {
-                SortState.NameUp => products.OrderBy(s => s.Name),
-                SortState.PriceUp => products.OrderBy(s => s.Price),
-                SortState.CategoryUp => products.OrderBy(s => s.Categories.Name),
-                SortState.NameDown => products.OrderByDescending(s => s.Name),
-                SortState.PriceDown => products.OrderByDescending(s => s.Price),
-                SortState.CaregoryDown => products.OrderByDescending(s => s.Categories.Name),
-
-                _ => products.OrderBy(s => s.Name),
-            };
-            return View(products.AsNoTracking().ToList()); ;
+            
+            return View(db.GetProducts(price, name, categoryName, sortOrder, ViewData).AsNoTracking().ToList()); ;
         }
 
 
@@ -71,8 +42,7 @@ namespace WorkWAPP.Controllers
         public ActionResult Create(Product product)
         {
 
-            SelectList categories = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.Categories = categories;
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name"); ;
 
             if (db.Add(product))
                 return RedirectToAction("Index");
@@ -83,8 +53,8 @@ namespace WorkWAPP.Controllers
         // GET: ProductController/Edit/5
         public ActionResult Edit(int id)
         {
-            SelectList categories = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.Categories = categories;
+             
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name"); 
             return View(db.Products.Find(id));
         }
 
