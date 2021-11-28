@@ -21,9 +21,24 @@ namespace WorkWAPP.Models
         public ProductContext(DbContextOptions<ProductContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //  Database.EnsureCreated();
+           
+            if (!Categories.Any()) {
+                Categories.Add(new Category() { Name = "Еда" });
+                Categories.Add(new Category() { Name = "Напитки" });
+            }
+            SaveChanges();
+            if (!Products.Any())
+            {
+                Products.Add(new Product() {Name = "Купаты", Description = "Главное не перепутать", CategoriesId = 1, Categories = this.Categories.ToList()[0], Price = 100, Note = "И вот почему", SpecialNote = "https://www.youtube.com/watch?v=KD18xWXIiGM&t=2s" });
+                Products.Add(new Product() {Name = "Трунок", Description = "Болтанка ликёра и энергетика.", CategoriesId = 2, Categories = this.Categories.ToList()[1], Price = 100, Note = "Если перепить, то можно встретиться с автором оригинального рецепта крамбамбули", SpecialNote = "Хоть голова после этого болеть не будет" });
+            }
+            SaveChanges();
         }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=IVAN;Trusted_Connection=True;MultipleActiveResultSets=true");
+        }
 
         public Product PrepareProduct(Product product)
         {
@@ -56,7 +71,6 @@ namespace WorkWAPP.Models
             try
             {
                 product = PrepareProduct(product);
-                product.Id = Products.ToList().Count!=0?Products.ToList()[Products.ToList().Count - 1].Id + 1:1;
                 Products.Add(product);
                 SaveChanges();
                 return true;
@@ -98,7 +112,6 @@ namespace WorkWAPP.Models
         {
             try
             {
-                category.Id = Categories.ToList().Count!=0?Categories.ToList()[Categories.ToList().Count - 1].Id + 1:1;
                 Categories.Add(category);
                 SaveChanges();
                 return true;
